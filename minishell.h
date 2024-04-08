@@ -11,4 +11,11 @@
 #include <string.h>
 #include <unistd.h>
 
+typedef struct s_data
+{
+	char	**envp;
+	char	*logname;
+	
+}t_data;
+
 #endif
