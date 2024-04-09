@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/09 00:03:26 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/09 13:54:46 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ volatile sig_atomic_t sigint_received = 0;
 
 void signalHandler(int sig)
 {
-	sig = sig;
+	sig = sig + 0;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -33,8 +33,8 @@ int main(int ac, char **argv, char **envp)
 
 	signal(SIGINT, &signalHandler);
 	signal(SIGQUIT, &signalHandler);
-	ac = ac;
-	argv = argv;
+	ac = ac + 0;
+	argv = argv + 0;
 	data.envp = envp;
 	data.pwd = getcwd(buf, sizeof(buf));
 	init_lobby(&data);

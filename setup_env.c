@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setup_env                                          :+:      :+:    :+:   */
+/*   setup_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/09 00:02:34 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/09 13:59:16 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*find_logname(t_data *data)
 		return (NULL);
 	while (data->envp[i])
 	{
-		if (ft_strncmp(data->envp[i], "USERNAME", 8) == 0)
+		if (ft_strncmp(data->envp[i], "USER=", 5) == 0)
 			break;
 		i++;
 	}
