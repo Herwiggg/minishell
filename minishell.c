@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/12 02:04:02 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:55:29 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,19 @@ void signalHandler(int sig)
 
 int main(int ac, char **argv, char **envp)
 {
+	t_list *env;
 	t_data data;
-	int 	i;
-	
+
+	env = NULL;
 	data.path = NULL;
 	signal(SIGINT, &signalHandler);
 	signal(SIGQUIT, &signalHandler);
 	ac = ac + 0;
 	argv = argv + 0;
+	stock_env(envp, &env);
 	data.envp = envp;
 	data.pwd = getcwd(data.buf, sizeof(data.buf));
 	data.total_setup = init_lobby(&data);
-	i = 0;
 	data.str = NULL;
 	while (1)
 	{
@@ -58,8 +59,10 @@ int main(int ac, char **argv, char **envp)
 			return (0);
 		}
 		if (strcmp("env", data.str) == 0)
-			while (envp[i])
-				printf("%s\n", envp[i++]);
+		{
+			if (env != NULL)
+				print_env(&env);
+		}
 		else if (strcmp("pwd", data.str) == 0)
 			{
 				data.str = NULL;
@@ -71,8 +74,9 @@ int main(int ac, char **argv, char **envp)
 			exit (EXIT_FAILURE);
 		else if (strncmp("cd", data.str, 2) == 0)
 			ft_cd(&data);
+		else if (strncmp("export", data.str, 6) == 0)
+			ft_export(&data);
 
-	
 	}
-	
 }
+

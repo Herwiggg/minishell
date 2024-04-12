@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/12 01:56:23 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:52:25 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*find_logname(t_data *data)
 		j++;
 	}
 	j = temp;
-	data->logname = malloc(((len + 1) * sizeof(char)));
+	data->logname = malloc(((len + 12) * sizeof(char)));
 	if (!data->logname)
 		return (NULL);
 	temp = 0;
@@ -101,7 +101,9 @@ char	*get_total_setup(t_data *data)
 	data->total_setup = malloc ((len) * sizeof(char));
 	if (!data->total_setup)
 		return (NULL);
-	data->total_setup = ft_str3cat(data->logname, data->extract_pwd, " \u27a4 ");
+	data->total_setup = ft_str3cat(data->logname, data->extract_pwd, " \u27a4 ", data->total_setup);
+	free(data->logname);
+	free(data->extract_pwd);
 	return (data->total_setup);
 }
 
@@ -110,7 +112,7 @@ char	*init_lobby(t_data *data)
 	data->logname = find_logname(data);
 	if (!data->logname)
 	{
-		data->logname = malloc((5 * sizeof(char)));
+		data->logname = malloc((16 * sizeof(char)));
 		if (!data->logname)
 			return (NULL);
 		ft_strcpy(data->logname, "user", 5);
@@ -119,7 +121,5 @@ char	*init_lobby(t_data *data)
 	add_pwd(data);
 	data->total_setup = NULL;
 	data->total_setup = get_total_setup(data);
-//	free(data->extract_pwd);
-//	free(data->mini);
 	return (data->total_setup);
 }
