@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
+/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/09 13:59:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/12 01:56:23 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,9 @@ char	*find_logname(t_data *data)
 
 void	add_minishell(t_data *data)
 {
-	int	len;
-
-	len = ft_strlen(data->logname);
-	data->mini_logname = malloc ((len + 11) * sizeof(char));
-	if (!data->mini_logname)
-		return;
 	data->mini = ft_strdup("@minishell ");
-	data->mini_logname = ft_strcat(data->logname, data->mini);
+	ft_strcat(data->logname, data->mini);
+	free(data->mini);
 }
 
 void	add_pwd(t_data *data)
@@ -97,29 +92,34 @@ void	add_pwd(t_data *data)
 	data->extract_pwd[j] = '\0';
 }
 
-void	get_total_setup(t_data *data)
+char	*get_total_setup(t_data *data)
 {
 	int	len;
 
-	len = ft_strlen(data->mini_logname) + ft_strlen(data->extract_pwd);
+	len = ft_strlen(data->logname) + ft_strlen(data->extract_pwd);
 	len = len + ft_strlen(" \u27a4 ") + 1;
 	data->total_setup = malloc ((len) * sizeof(char));
 	if (!data->total_setup)
-		return;
-	data->total_setup = ft_str3cat(data->mini_logname, data->extract_pwd, " \u27a4 ");
+		return (NULL);
+	data->total_setup = ft_str3cat(data->logname, data->extract_pwd, " \u27a4 ");
+	return (data->total_setup);
 }
 
-void	init_lobby(t_data *data)
+char	*init_lobby(t_data *data)
 {
 	data->logname = find_logname(data);
 	if (!data->logname)
 	{
 		data->logname = malloc((5 * sizeof(char)));
 		if (!data->logname)
-			return;
+			return (NULL);
 		ft_strcpy(data->logname, "user", 5);
 	}
 	add_minishell(data);
 	add_pwd(data);
-	get_total_setup(data);
+	data->total_setup = NULL;
+	data->total_setup = get_total_setup(data);
+//	free(data->extract_pwd);
+//	free(data->mini);
+	return (data->total_setup);
 }

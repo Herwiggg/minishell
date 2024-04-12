@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 OBJS_DIR = obj
 
-SRCS = minishell.c utilsv1.c setup_env.c
+SRCS = minishell.c utilsv1.c setup_env.c cd.c
 
 OBJS = $(SRCS:.c=.o)
 
