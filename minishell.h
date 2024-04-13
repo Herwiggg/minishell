@@ -34,19 +34,23 @@ void	add_pwd(t_data *data);
 
 /*-------Export-------*/
 char	*ft_add_declare_x(char *str);
-void	ft_export(t_data *data);
+void	ft_export(t_data *data,t_list **envp);
+void	update_env(t_list **env);
 
 /*-------Env-------*/
 void	stock_env(char **env, t_list **envp);
 void	print_env(t_list **envp);
+void	update_oldpwd(t_list **env);
+char	*get_actualpwd(t_list **env);
 
 /*-------Cd-------*/
-void	ft_cd(t_data *data);
+void	ft_cd(t_data *data, t_list **env);
 
 /*-------Utils-------*/
 char 	*ft_strcat(char *dest, char *src);
 char 	*ft_str3cat(char *dest, char *src1, char *src2, char *get_total_setup);
 char	*ft_return_strcat(char *dest, char *src, char *result);
+int		ft_lstlen(t_list **lst);
 
 /*-------Ctrls-------*/
 void 	signalHandler(int signum);

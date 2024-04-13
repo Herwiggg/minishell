@@ -1,10 +1,10 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 OBJS_DIR = obj
 
-SRCS = minishell.c utilsv1.c setup_env.c cd.c env.c
+SRCS = minishell.c utilsv1.c setup_lobby.c cd.c env.c utilsv2.c
 
 OBJS = $(SRCS:.c=.o)
 

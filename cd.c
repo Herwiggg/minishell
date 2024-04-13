@@ -6,13 +6,13 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/12 18:22:29 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:35:30 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(t_data *data)
+void	ft_cd(t_data *data, t_list **env)
 {
 
 	data->path = data->str + 3;
@@ -21,13 +21,13 @@ void	ft_cd(t_data *data)
 				data->pwd = getcwd(data->buf, sizeof(data->buf));
 				free(data->total_setup);
 				data->total_setup = init_lobby(data);
-
+				update_env(env);
 			}
 			else
 				ft_printf("cannot access\n");
 }
 
-void	ft_export(t_data *data)
+void	ft_export(t_data *data, t_list **env)
 {
 	int	i;
 	int	j;
@@ -36,14 +36,12 @@ void	ft_export(t_data *data)
 
 	j = 0;
 	i = 0;
-	if (!data->envp)
+	if (!env)
 	{
 		ft_printf("env: «export»: Aucun fichier ou dossier de ce type\n");
 		return;
 	}
-	while(data->envp[i])
-		i++;
-	data->export = malloc((i + 1) * sizeof(char *));
+	data->export = malloc((ft_lstlen(env)) * sizeof(char *));
 	if (!data->export)
 		return;
 	data->export[i] = NULL;

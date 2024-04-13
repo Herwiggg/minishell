@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/13 00:55:29 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:34:06 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int main(int ac, char **argv, char **envp)
 		else if(strcmp("exit", data.str) == 0)
 			exit (EXIT_FAILURE);
 		else if (strncmp("cd", data.str, 2) == 0)
-			ft_cd(&data);
+			ft_cd(&data, &env);
 		else if (strncmp("export", data.str, 6) == 0)
-			ft_export(&data);
+			ft_export(&data, &env);
 
 	}
 }
