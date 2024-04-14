@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/13 17:35:30 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/14 02:14:33 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@ void	ft_cd(t_data *data, t_list **env)
 				ft_printf("cannot access\n");
 }
 
-void	ft_export(t_data *data, t_list **env)
+void	ft_export(t_data *data, t_list	**env)
 {
 	int	i;
 	int	j;
 	char	*temp;
-	int	max;
+	int		max;
+	t_list	*current;
 
+	current = *env;
 	j = 0;
 	i = 0;
 	if (!env)
@@ -41,10 +43,20 @@ void	ft_export(t_data *data, t_list **env)
 		ft_printf("env: «export»: Aucun fichier ou dossier de ce type\n");
 		return;
 	}
-	data->export = malloc((ft_lstlen(env)) * sizeof(char *));
+	i = ft_lstlen(env);
+	data->export = malloc((i + 1) * sizeof(char *));
 	if (!data->export)
 		return;
 	data->export[i] = NULL;
+	i = 0;
+	while (current)
+	{
+		data->export[i] = malloc(ft_strlen(current->content) + 12);
+		ft_strcpy_wn(data->export[i], "declare -x ", 12);
+		ft_strcat(data->export[i], current->content);
+		current = current->next;
+		i++;
+	}
 	max = i;
 	i = 0;
 	while (i < max - 1)
@@ -52,47 +64,25 @@ void	ft_export(t_data *data, t_list **env)
 		j = 0;
 		while (j < max - 1)
 		{
-			if (strcmp(data->envp[j], data->envp[j + 1]) > 0)
+			if (strcmp(data->export[j], data->export[j + 1]) > 0)
 			{
-				temp = data->envp[j];
-                data->envp[j] = data->envp[j + 1];
-                data->envp[j + 1] = temp;
+				temp = data->export[j];
+                data->export[j] = data->export[j + 1];
+                data->export[j + 1] = temp;
 			}
 			j++;
 		}
 		i++;
 	}
 	i = 0;
-	while (data->envp[i])
-	{
-		data->export[i] = ft_strdup(data->envp[i]);
-		i++;
-	}
-		
-	data->export[i] = '\0';
-	i = 0;
-	while (data->export[i])
-	{
-		data->export[i] = ft_add_declare_x(data->export[i]);
-		i++;
-	}
-	i = 0;
 	while (data->export[i])
 		ft_printf("%s\n", data->export[i++]);
-	
-
+	i = 0;
+	while (data->export[i])
+	{
+		free(data->export[i]);
+		i++;
+	}
+	free(data->export);
 }
 
-char	*ft_add_declare_x(char *str)
-{
-	char	*export;
-	int		len;
-
-	len = ft_strlen(str) + 12;
-	export = malloc((len) * sizeof(char));
-	if (!export)
-		return (NULL);
-	ft_return_strcat("declare -x ", str, export);
-	return (export);
-	free(str);
-}

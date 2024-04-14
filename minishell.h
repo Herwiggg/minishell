@@ -33,7 +33,6 @@ char	*find_logname(t_data *data);
 void	add_pwd(t_data *data);
 
 /*-------Export-------*/
-char	*ft_add_declare_x(char *str);
 void	ft_export(t_data *data,t_list **envp);
 void	update_env(t_list **env);
 
@@ -51,6 +50,7 @@ char 	*ft_strcat(char *dest, char *src);
 char 	*ft_str3cat(char *dest, char *src1, char *src2, char *get_total_setup);
 char	*ft_return_strcat(char *dest, char *src, char *result);
 int		ft_lstlen(t_list **lst);
+void	ft_strcpy_wn(char *dest, char *src, int size);
 
 /*-------Ctrls-------*/
 void 	signalHandler(int signum);

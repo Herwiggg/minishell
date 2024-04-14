@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 17:33:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/13 17:34:28 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/14 02:10:30 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,16 @@ int	ft_lstlen(t_list **lst)
 		count++;
 	}
 	return (count);
+}
+
+void	ft_strcpy_wn(char *dest, char *src, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		dest[i] = src[i];
+		i++;
+	}
 }
