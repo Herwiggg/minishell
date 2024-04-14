@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/13 23:23:12 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/15 01:03:42 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 void	stock_env(char **env, t_list **envp)
 {
-	int	i;
-	
+	int		i;
 	t_list	*new_case;
 
 	if (!env)
-		return;
+		return ;
 	i = 0;
 	new_case = NULL;
 	while (env[i])
@@ -32,13 +31,13 @@ void	stock_env(char **env, t_list **envp)
 
 void	update_env(t_list **env)
 {
-	t_list *current;
+	t_list	*current;
 	char	buf[1024];
-	char 	*cwd;
+	char	*cwd;
 	int		flag;
 	t_list	*new_case;
 	char	*new_content;
-	
+
 	flag = 0;
 	current = *env;
 	if (env != NULL)
@@ -51,8 +50,10 @@ void	update_env(t_list **env)
 				flag = 1;
 				cwd = getcwd(buf, sizeof(buf));
 				free(current->content);
-				current->content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
-				current->content = ft_return_strcat("PWD=", cwd, current->content);
+				current->content = malloc(((ft_strlen(cwd) + 5)
+							* sizeof(char)));
+				current->content = ft_return_strcat("PWD=", cwd,
+						current->content);
 			}
 			current = current->next;
 		}
@@ -60,7 +61,8 @@ void	update_env(t_list **env)
 		{
 			cwd = getcwd(buf, sizeof(buf));
 			new_content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
-			new_content = ft_strcat("PWD=", cwd);
+			ft_strcpy(new_content, "PWD=", 4);
+			ft_strcat(new_content, cwd);
 			new_case = ft_lstnew(new_content);
 			ft_lstadd_back(env, new_case);
 		}
@@ -69,11 +71,11 @@ void	update_env(t_list **env)
 
 void	update_oldpwd(t_list **env)
 {
-	t_list *current;
+	t_list	*current;
 	t_list	*new_case;
 	int		flag;
 	char	*cwd;
-	
+
 	flag = 0;
 	current = *env;
 	cwd = get_actualpwd(env);
@@ -81,25 +83,24 @@ void	update_oldpwd(t_list **env)
 	{
 		cwd = malloc((7) * sizeof(char));
 		if (!cwd)
-			return;
+			return ;
 		ft_strcpy(cwd, "OLDPWD=", 7);
 	}
 	while (current)
+	{
+		if (strncmp(current->content, "OLDPWD=", 7) == 0)
 		{
-			if (strncmp(current->content, "OLDPWD=", 7) == 0)
-			{
-				flag = 1;
-				free(current->content);
-				current->content = cwd;
-			}
-			current = current->next;
+			flag = 1;
+			free(current->content);
+			current->content = cwd;
 		}
-		if (flag == 0)
-		{
-			new_case = ft_lstnew(cwd);
-			ft_lstadd_back(env, new_case);
-		}
-
+		current = current->next;
+	}
+	if (flag == 0)
+	{
+		new_case = ft_lstnew(cwd);
+		ft_lstadd_back(env, new_case);
+	}
 }
 
 char	*get_actualpwd(t_list **env)
@@ -124,15 +125,27 @@ char	*get_actualpwd(t_list **env)
 	return (NULL);
 }
 
-void	print_env(t_list **envp)
+void	print_env(t_list **envp, t_list **exp_var)
 {
 	t_list	*top;
+	t_list	*current;
 
+	current = *exp_var;
 	top = *envp;
-
-	while (top)
+	if (envp != NULL)
 	{
-		ft_printf("%s\n", top->content);
-		top = top->next;
+		while (top)
+		{
+			ft_printf("%s\n", top->content);
+			top = top->next;
+		}
+	}
+	if (exp_var != NULL)
+	{
+		while (current)
+		{
+			ft_printf("%s\n", current->content);
+			current = current->next;
+		}
 	}
 }
