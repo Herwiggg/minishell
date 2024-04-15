@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setup_env.c                                        :+:      :+:    :+:   */
+/*   setup_lobby.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/13 17:16:09 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:03:51 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Tout cette page permet de print le menu de lancement, pas besoinde parser je crois
 char	*find_logname(t_data *data)
 {
 	int	i;
