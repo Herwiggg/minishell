@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:59:35 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/08 21:15:55 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:33:14 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/argp.h"
 
 char *ft_strcat(char *dest, char *src)
 {

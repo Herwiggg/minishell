@@ -1,8 +1,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "./libft42/libft.h"
-# include "./ft_printf/ft_printf.h"
+# include "../LIBFT/libft.h"
+//# include "../ft_printf/ft_printf.h"      //&noah
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -12,6 +12,16 @@
 # include <unistd.h>
 # include <signal.h>
 
+//&Structures noah
+typedef struct s_input
+{
+	char	*intput_brut;
+	char	*cmd;
+	char	*opt;
+	char	*args;
+}	t_input;
+
+//?Structures Alexy
 typedef struct s_data
 {
 	char	**envp;
@@ -24,6 +34,7 @@ typedef struct s_data
 }	t_data;
 
 
+/*//?Foncions d'alexy*/
 
 char 	*ft_strcat(char *dest, char *src);
 char 	*ft_str3cat(char *dest, char *src1, char *src2);
@@ -32,5 +43,9 @@ void	add_minishell(t_data *data);
 char	*find_logname(t_data *data);
 void	add_pwd(t_data *data);
 void 	signalHandler(int signum);
+
+/*//&Fonctions de noah*/
+int	parsing(t_input *input);
+int	quotes(char *str);
 
 #endif

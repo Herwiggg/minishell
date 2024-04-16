@@ -4,16 +4,19 @@ CFLAGS = -Wall -Wextra -Werror
 
 OBJS_DIR = obj
 
-SRCS = minishell.c utilsv1.c setup_env.c
+SRCS = src/minishell.c \
+       src/setup_env.c \
+       src/utilsv1.c \
+       src/parsing.c \
+       src/quotes.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(patsubst src/%.c, $(OBJS_DIR)/%.o, $(SRCS))
 
 NAME = minishell
 
 $(NAME): $(OBJS)
-	@make -C libft42/
-	@make -C ft_printf/
-	$(CC) $(CFLAGS) $^ -o $@ libft42/libft.a ft_printf/libftprintf.a -lreadline
+	@make -C LIBFT/
+	$(CC) $(CFLAGS) $^ -o $@ LIBFT/libft.a -lreadline
 
 $(OBJS_DIR)/%.o: src/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -24,13 +27,11 @@ $(OBJS_DIR):
 all: $(NAME)
 
 clean:
-	@make fclean -C libft42/
-	@make fclean -C ft_printf/
+	@make fclean -C LIBFT/
 	rm -f $(OBJS)
 
 fclean: clean
-	@make fclean -C libft42/
-	@make fclean -C ft_printf/
+	@make fclean -C LIBFT/
 	rm -f $(NAME)
 
 re: fclean all

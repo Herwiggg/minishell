@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   setup_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almichel <	almichel@student.42.fr>         +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/09 13:59:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:56:58 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 char	*find_logname(t_data *data)
 {
@@ -117,7 +117,7 @@ void	init_lobby(t_data *data)
 		data->logname = malloc((5 * sizeof(char)));
 		if (!data->logname)
 			return;
-		ft_strcpy(data->logname, "user", 5);
+		ft_strlcpy(data->logname, "user", 5);
 	}
 	add_minishell(data);
 	add_pwd(data);
