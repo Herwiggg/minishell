@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 16:23:33 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/08 00:12:36 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:57:12 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	ft_strcpy(char *dest, char *src, int size)
 		dest[i] = src[i];
 		i++;
 	}
+	dest[i] = '\0';
 }
 
 char	*ft_list_to_tab(t_listt **list)
