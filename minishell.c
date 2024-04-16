@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/15 16:55:46 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:28:42 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ volatile sig_atomic_t sigint_received = 0;
 // Ca c'est ce qui permet de faire un retour a la ligne a chaque ctrl C et quitte le programme quand tu ctrl D
 void signalHandler(int sig)
 {
-	sig = sig + 0;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	if (sig == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
+	rl_replace_line("", 1);
 	rl_on_new_line();
     rl_redisplay();
     sigint_received = 1;
@@ -82,7 +86,12 @@ int main(int ac, char **argv, char **envp)
 				free(data.str);
 			}
 		else if(strcmp("exit", data.str) == 0)
+		{
+			ft_free_lists(&env, &exp_var);
 			exit (EXIT_FAILURE);
+		}
+		else if (strncmp("cd ~", data.str, 4) == 0)
+			ft_cd_home(&data, &env);
 		else if (strncmp("cd", data.str, 2) == 0)
 			ft_cd(&data, &env);
 		else if (strncmp("export", data.str, 6) == 0 && len > 1)
@@ -105,6 +114,9 @@ int main(int ac, char **argv, char **envp)
 				i++;
 			}
 		}
+
+		else if (strncmp("echo", data.str, 4) == 0)
+			ft_echo(data.str, 1);
 	}
 }
 

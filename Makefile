@@ -4,7 +4,16 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 OBJS_DIR = obj
 
-SRCS = minishell.c utilsv1.c setup_lobby.c cd.c env.c utilsv2.c export.c unset.c
+SRCS = minishell.c\
+		utils/utilsv1.c\
+		execute/env/setup_lobby.c\
+		execute/cmd/cd.c\
+		execute/env/env.c\
+		utils/utilsv2.c\
+		execute/env/export.c\
+		execute/env/unset.c\
+		utils/utilsv3.c\
+		execute/cmd/echo.c\
 
 OBJS = $(SRCS:.c=.o)
 

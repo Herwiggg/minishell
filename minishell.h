@@ -45,9 +45,19 @@ char	*get_actualpwd(t_list **env);
 
 /*-------Cd-------*/
 void	ft_cd(t_data *data, t_list **env);
+void	ft_cd_home(t_data *data, t_list **env);
+void	get_home_path(t_data *data, t_list	**env);
 
 /*-------Unset-------*/
 void	ft_unset(t_list **env, t_list **exp_var, char *var);
+
+/*-------Ctrls-------*/
+void 	signalHandler(int signum);
+char	*get_total_setup(t_data *data);
+int		ft_count_words(const char *s, char c);
+
+/*-------Cmds-------*/
+void	ft_echo(char *str, int n_option);
 
 /*-------Utils-------*/
 char 	*ft_strcat(char *dest, char *src);
@@ -57,10 +67,7 @@ int		ft_lstlen(t_list **lst);
 void	ft_strcpy_wn(char *dest, char *src, int size);
 int 	ft_len_equal(char *str);
 int 	ft_check_equal(char *str);
+void	ft_free_lists(t_list **env, t_list **exp_var);
 
-/*-------Ctrls-------*/
-void 	signalHandler(int signum);
-char	*get_total_setup(t_data *data);
-int		ft_count_words(const char *s, char c);
 
 #endif
