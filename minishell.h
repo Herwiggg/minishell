@@ -11,6 +11,8 @@
 # include <string.h>
 # include <unistd.h>
 # include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -58,6 +60,11 @@ int		ft_count_words(const char *s, char c);
 
 /*-------Cmds-------*/
 void	ft_echo(char *str, int n_option);
+void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var);
+void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var);
+void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
+char	**stock_total_env(t_list **envp, t_list **exp_var);
+char	*ft_strjoin_cmd(char const *s1, char const *s2);
 
 /*-------Utils-------*/
 char 	*ft_strcat(char *dest, char *src);
@@ -68,6 +75,9 @@ void	ft_strcpy_wn(char *dest, char *src, int size);
 int 	ft_len_equal(char *str);
 int 	ft_check_equal(char *str);
 void	ft_free_lists(t_list **env, t_list **exp_var);
-
+void	ft_putstr_msg(char *s, int fd, char *str);
+void	free_double_tabs(char **str);
+char	*ft_strjoin_error(char const *s1, char const *s2);
+int		ft_strlen_space(const char *str);
 
 #endif
