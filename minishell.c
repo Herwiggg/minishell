@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/20 00:56:24 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:21:27 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ int main(int ac, char **argv, char **envp)
 
 		else if (strncmp("echo", data.str, 4) == 0)
 			ft_echo(data.str, 1);
-		else if (strncmp("cat", data.str, 5) == 0)
-			setup_exe_simple_cmd("cat", &env, &exp_var);
+		else if (strncmp("ls", data.str, 5) == 0)
+			setup_exe_simple_cmd("./minishell", &env, &exp_var, "", "");
 			// Tu met la commande que tu veux dans le premier arg et dans le strncmp
 			//c'est en attendant le parsing
 	}
