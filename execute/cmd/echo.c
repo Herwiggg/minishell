@@ -6,19 +6,52 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/16 13:48:53 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/22 00:39:44 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Fonction echo, c'est juste un printf et je check si y'a l'option -n
-void	ft_echo(char *str, int n_option)
+//Fonction qui cherche si ya un $NomDeVariable pour la print avec echo
+char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 {
+	char	**total_env;
 	int	i;
 
+	total_env = stock_total_env(env, exp_var);
+	while (total_env[i])
+	{
+		if (ft_strncmp(str + 1, total_env[i], ft_strlen(str) - 1) == 0)
+		{
+			*flag = 1;
+			str = ft_strdup(total_env[i]);
+		}
+		i++;
+	}
 	i = 0;
+	while (total_env[i])
+	{
+		free(total_env[i]);
+		i++;
+	}
+	free (total_env);
+	return (str);
+}
 
+// Fonction echo, c'est juste un printf et je check si y'a l'option -n
+void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var)
+{
+	int	i;
+	int	len;
+	int	flag;
+
+	flag = -1;
+	len = ft_strlen(str);
+	str = find_echo_var(str, env, exp_var, &flag);
+	if (flag == 1)
+		i = len + 1;
+	else
+		i = 0;
 	while (str[i])
 	{
 		write(1, &str[i], 1);
@@ -26,5 +59,6 @@ void	ft_echo(char *str, int n_option)
 	}
 	if (n_option != -1)
 		write(1, "\n", 1);
-	
+	if (flag == 1)
+		free(str);
 }

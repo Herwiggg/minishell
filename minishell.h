@@ -13,6 +13,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 typedef struct s_data
 {
@@ -58,13 +59,19 @@ void 	signalHandler(int signum);
 char	*get_total_setup(t_data *data);
 int		ft_count_words(const char *s, char c);
 
+
+/*-------echo------*/
+void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var);
+char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag);
+
 /*-------Cmds-------*/
-void	ft_echo(char *str, int n_option);
-void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var);
-void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var);
+void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
+		char *file, char *redir);
+void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char *redir);
 void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
 char	**stock_total_env(t_list **envp, t_list **exp_var);
 char	*ft_strjoin_cmd(char const *s1, char const *s2);
+void	check_redirection(char *str, char *file, int *fd);
 
 /*-------Utils-------*/
 char 	*ft_strcat(char *dest, char *src);
@@ -79,5 +86,6 @@ void	ft_putstr_msg(char *s, int fd, char *str);
 void	free_double_tabs(char **str);
 char	*ft_strjoin_error(char const *s1, char const *s2);
 int		ft_strlen_space(const char *str);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

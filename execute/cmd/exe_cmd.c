@@ -6,41 +6,102 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/20 00:38:23 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/22 01:22:38 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Fonctions qui execute une commande simple du genre ls -l par exemple.
-// elle est pas encore dans le main pour l'instant
+// Fonctions qui executent une commande simple du genre ls -l par exemple.
 
-void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var)
+void	check_redirection(char *str, char *file, int *fd)
 {
-	pid_t pid = fork();
-   			 if (pid == 0)
-			 {
-				check_and_exe_cmd(cmd, env, exp_var);
-				 exit(EXIT_SUCCESS);
-			}
-			else if (pid > 0)
-			{
-				 wait(NULL);
-				write(1, "\n", 1);
-			}
-    		else
-       	 		perror("fork");
+	if (ft_strcmp(">", str) == 0)
+	{
+		*fd = open(file, O_WRONLY | O_TRUNC, 0644);
+		if (access(file, W_OK) == -1 && access(file, F_OK) == 0)
+		{
+			ft_putstr_msg(": No such file or directory\n", 2, file);
+		}
+		else
+		{
+			*fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			if (access(file, R_OK) != 0)
+				ft_putstr_msg(": Permission denied\n", 2, file);
+		}
+	}
+	else if (ft_strcmp(">>", str) == 0)
+	{
+		*fd = open(file, O_WRONLY | O_APPEND, 0644);
+		if (access(file, W_OK) == -1 && access(file, F_OK) == 0)
+		{
+			ft_putstr_msg(": No such file or directory\n", 2, file);
+		}
+		else
+		{
+			*fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+			if (access(file, R_OK) != 0)
+				ft_putstr_msg(": Permission denied\n", 2, file);
+		}
+	}
+	else if (ft_strcmp("<", str) == 0)
+	{
+		if (access(file, F_OK) != 0)
+		{
+			ft_putstr_msg(": No such file or directory\n", 2, file);
+		}
+		else
+		{
+			*fd = open(file, O_RDONLY);
+			if (access(file, R_OK) != 0)
+				ft_putstr_msg(": Permission denied\n", 2, file);
+		}
+	}
 }
 
-void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var)
+void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
+		char *file, char *redir)
+{
+	pid_t	pid;
+	int		fd;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (file[0] == '.' && file[1] == '/')
+			if (chdir(file) != 0)
+				{
+					ft_putstr_msg(": Aucun fichier ou dossier de ce type", 2, file);
+					exit(EXIT_FAILURE);
+				}
+		check_redirection(redir, file, &fd);
+		check_and_exe_cmd(cmd, env, exp_var, fd, redir);
+		exit(EXIT_SUCCESS);
+	}
+	else if (pid > 0)
+	{
+		wait(NULL);
+		write(1, "\n", 1);
+	}
+	else
+		perror("fork");
+}
+
+void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char *redir)
 {
 	char	**cmd1;
 	char	**absolut_path;
 	char	**total_env;
-	int	i;
+	int		i;
 
 	i = 0;
-
+	if (redir)
+	{
+		if (ft_strcmp(redir, ">") == 0 || ft_strcmp(redir, ">>") == 0)
+			dup2(fd, STDOUT_FILENO);
+		else if (ft_strcmp(redir, "<") == 0)
+			dup2(fd, STDIN_FILENO);
+	}
 	total_env = stock_total_env(envp, exp_var);
 	cmd1 = ft_split(cmd, ' ');
 	absolut_path = ft_split(cmd, ' ');
@@ -54,7 +115,7 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var)
 	ft_relative_path(cmd1, total_env, cmd);
 	i = 0;
 	free_double_tabs(total_env);
-	return;
+	return ;
 }
 
 void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)
@@ -62,7 +123,7 @@ void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)
 	char	*good_line_envp;
 	char	**good_path;
 	char	*good_cmd;
-	int	i;
+	int		i;
 
 	i = 0;
 	good_path = NULL;
@@ -94,11 +155,11 @@ void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)
 	free_double_tabs(splitted_cmd1);
 }
 
-//Rassemble l'env dans un double tab car execve prends comme argument un double tab
+// Rassemble l'env dans un double tab car execve prends comme argument un double tab
 char	**stock_total_env(t_list **envp, t_list **exp_var)
 {
-	int	len;
-	int	i;
+	int		len;
+	int		i;
 	t_list	*head;
 	t_list	*current;
 	char	**total_env;
