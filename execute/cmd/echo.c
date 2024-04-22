@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/22 00:39:44 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:42:58 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 	char	**total_env;
 	int	i;
 
+	i = 0;
 	total_env = stock_total_env(env, exp_var);
 	while (total_env[i])
 	{
@@ -38,8 +39,8 @@ char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 	return (str);
 }
 
-// Fonction echo, c'est juste un printf et je check si y'a l'option -n
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var)
+//Fonction echo, c'est juste un printf et je check si y'a l'option -n
+void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var, int *fd)
 {
 	int	i;
 	int	len;
@@ -52,9 +53,13 @@ void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var)
 		i = len + 1;
 	else
 		i = 0;
+	//printf("%i\n", fd);
 	while (str[i])
 	{
-		write(1, &str[i], 1);
+		if (*fd != -1)
+			write((*fd), &str[i], 1);
+		else 
+			write(1, &str[i], 1);
 		i++;
 	}
 	if (n_option != -1)

@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/22 01:22:38 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:43:34 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
 	pid_t	pid;
 	int		fd;
 
+	fd = -1;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -102,6 +103,11 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 		else if (ft_strcmp(redir, "<") == 0)
 			dup2(fd, STDIN_FILENO);
 	}
+	if (ft_strncmp("echo", cmd, ft_strlen_space(cmd)) == 0)
+	{	
+		ft_echo(cmd + 5, 1, envp, exp_var, &fd);
+		return;
+	}
 	total_env = stock_total_env(envp, exp_var);
 	cmd1 = ft_split(cmd, ' ');
 	absolut_path = ft_split(cmd, ' ');
@@ -115,7 +121,7 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 	ft_relative_path(cmd1, total_env, cmd);
 	i = 0;
 	free_double_tabs(total_env);
-	return ;
+	return;
 }
 
 void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1)

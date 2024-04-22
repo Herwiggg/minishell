@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/22 01:22:48 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/23 00:36:05 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@ void signalHandler(int sig)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 1);
+		rl_on_new_line();
 		rl_redisplay();
 	}
-	rl_replace_line("", 1);
-	rl_on_new_line();
-    rl_redisplay();
+	else
+	{
+			rl_replace_line("", 1);
+			rl_on_new_line();
+   			rl_redisplay();
+	}
     sigint_received = 1;
 }
 
@@ -38,8 +42,8 @@ int main(int ac, char **argv, char **envp)
 	exp_var = NULL;
 	env = NULL;
 	data.path = NULL;
-	signal(SIGINT, &signalHandler);
-	signal(SIGQUIT, &signalHandler);
+	signal(SIGINT, signalHandler);
+	signal(SIGQUIT, signalHandler);
 	ac = ac + 0;
 	argv = argv + 0;
 	stock_env(envp, &env);
@@ -54,6 +58,7 @@ int main(int ac, char **argv, char **envp)
 	{
 		if (sigint_received)
 		{
+			open("/dev/stdin", 1);
 			sigint_received = 0;
 		}
 		data.str = readline(data.total_setup);
@@ -114,11 +119,8 @@ int main(int ac, char **argv, char **envp)
 				i++;
 			}
 		}
-
 		else if (strncmp("echo", data.str, 4) == 0)
-			ft_echo(data.str + 5, 1, &env, &exp_var);
-		else if (strncmp("ls", data.str, 5) == 0)
-			setup_exe_simple_cmd("ls", &env, &exp_var, "utfile01", ">>");
+			setup_exe_simple_cmd(data.str, &env, &exp_var, "utfile01", "");
 			// Tu met la commande que tu veux dans le premier arg et dans le strncmp
 			//c'est en attendant le parsing
 	}

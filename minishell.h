@@ -14,6 +14,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <termios.h>
 
 typedef struct s_data
 {
@@ -61,7 +62,7 @@ int		ft_count_words(const char *s, char c);
 
 
 /*-------echo------*/
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var);
+void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var, int *fd);
 char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag);
 
 /*-------Cmds-------*/
