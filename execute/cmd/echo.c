@@ -6,17 +6,17 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/22 16:42:58 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:19:13 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-//Fonction qui cherche si ya un $NomDeVariable pour la print avec echo
+// Fonction qui cherche si ya un $NomDeVariable pour la print avec echo
 char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 {
 	char	**total_env;
-	int	i;
+	int		i;
 
 	i = 0;
 	total_env = stock_total_env(env, exp_var);
@@ -35,32 +35,39 @@ char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 		free(total_env[i]);
 		i++;
 	}
-	free (total_env);
+	free(total_env);
 	return (str);
 }
 
-//Fonction echo, c'est juste un printf et je check si y'a l'option -n
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var, int *fd)
+// Fonction echo, c'est juste un printf et je check si y'a l'option -n
+void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
+			int *fd, t_code *code)
 {
-	int	i;
-	int	len;
-	int	flag;
+	int i;
+	int len;
+	int flag;
 
 	flag = -1;
 	len = ft_strlen(str);
 	str = find_echo_var(str, env, exp_var, &flag);
-	if (flag == 1)
-		i = len + 1;
-	else
-		i = 0;
-	//printf("%i\n", fd);
-	while (str[i])
+	if (ft_strcmp("$?", str) == 0)
 	{
-		if (*fd != -1)
-			write((*fd), &str[i], 1);
-		else 
-			write(1, &str[i], 1);
-		i++;
+		ft_printf("%d", code->code);
+	}
+	else
+	{
+		if (flag == 1)
+			i = len + 1;
+		else
+			i = 0;
+		while (str[i])
+		{
+			if (*fd != -1)
+				write((*fd), &str[i], 1);
+			else
+				write(1, &str[i], 1);
+			i++;
+		}
 	}
 	if (n_option != -1)
 		write(1, "\n", 1);

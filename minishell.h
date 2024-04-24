@@ -28,7 +28,14 @@ typedef struct s_data
 	char	*total_setup;
 	char	*str;
 	char 	buf[1024];
+	int		exit_code;
 }	t_data;
+
+typedef struct scode
+{
+	int	code;
+
+}	t_code;
 
 /*-------Init Lobby-------*/
 char	*init_lobby(t_data *data);
@@ -46,11 +53,14 @@ void	stock_env(char **env, t_list **envp);
 void	print_env(t_list **envp, t_list	**exp_var);
 void	update_oldpwd(t_list **env);
 char	*get_actualpwd(t_list **env);
+void	print_pwd(char *str, t_code *code);
 
 /*-------Cd-------*/
-void	ft_cd(t_data *data, t_list **env);
+void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code);
 void	ft_cd_home(t_data *data, t_list **env);
 void	get_home_path(t_data *data, t_list	**env);
+int		find_var_cd(char *path, t_list **env, t_list **exp_var);
+char	*put_path_cd(char *path, t_list **env, t_list **exp_var);
 
 /*-------Unset-------*/
 void	ft_unset(t_list **env, t_list **exp_var, char *var);
@@ -60,15 +70,14 @@ void 	signalHandler(int signum);
 char	*get_total_setup(t_data *data);
 int		ft_count_words(const char *s, char c);
 
-
 /*-------echo------*/
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var, int *fd);
+void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var, int *fd, t_code *code);
 char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag);
 
 /*-------Cmds-------*/
 void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
-		char *file, char *redir);
-void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char *redir);
+		char *file, char *redir, t_code *code);
+void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char *redir, t_code *rl_filename_completion_desired);
 void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
 char	**stock_total_env(t_list **envp, t_list **exp_var);
 char	*ft_strjoin_cmd(char const *s1, char const *s2);
