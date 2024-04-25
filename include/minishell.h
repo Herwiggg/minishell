@@ -17,8 +17,8 @@ typedef struct s_input
 {
 	char	*intput_brut;
 	char	*cmd;
-	char	*opt;
-	char	*args;
+	char	*cmd_opt;
+	char	**args;
 }	t_input;
 
 //?Structures Alexy
@@ -45,7 +45,8 @@ void	add_pwd(t_data *data);
 void 	signalHandler(int signum);
 
 /*//&Fonctions de noah*/
-int	parsing(t_input *input);
-int	quotes(char *str);
+int		parsing(t_input *input);
+int		quotes(char *str);
+size_t	mini_split(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/13 12:57:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/04/20 12:28:14 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int main(int ac, char **argv, char **envp)
 			sigint_received = 0;
 		}
 		input.intput_brut = readline(data.total_setup);
+		//printf("%zu\n", mini_split(input.intput_brut));
 		if (!parsing(&input))
 			;
 		else if (sigint_received)
