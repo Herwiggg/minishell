@@ -1,101 +1,115 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "./libft42/libft.h"
 # include "./ft_printf/ft_printf.h"
-
-# include <stdio.h>
-# include <readline/readline.h>
+# include "./libft42/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <unistd.h>
-# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <fcntl.h>
 # include <termios.h>
+# include <unistd.h>
 
 typedef struct s_data
 {
-	char	**envp;
-	char	**export;
-	char	*logname;
-	char	*mini;
-	char	*pwd;
-	char	*path;
-	char	*extract_pwd;
-	char	*total_setup;
-	char	*str;
-	char 	buf[1024];
-	int		exit_code;
-}	t_data;
+	char		**envp;
+	char		**export;
+	char		*logname;
+	char		*mini;
+	char		*pwd;
+	char		*path;
+	char		*extract_pwd;
+	char		*total_setup;
+	char		*str;
+	char		buf[1024];
+	int			exit_code;
+}				t_data;
 
 typedef struct scode
 {
-	int	code;
+	long long	code;
 
-}	t_code;
+}				t_code;
 
 /*-------Init Lobby-------*/
-char	*init_lobby(t_data *data);
-void	add_minishell(t_data *data);
-char	*find_logname(t_data *data);
-void	add_pwd(t_data *data);
+char			*init_lobby(t_data *data);
+void			add_minishell(t_data *data);
+char			*find_logname(t_data *data);
+void			add_pwd(t_data *data);
 
 /*-------Export-------*/
-void	ft_export(t_data *data, t_list	**env, t_list **exp_var);
-void	update_env(t_list **env);
-void	export_variable(t_list	**env, t_list **exp_var, char *var);
+void			ft_export(t_data *data, t_list **env, t_list **exp_var);
+void			update_env(t_list **env);
+void			export_variable(t_list **env, t_list **exp_var, char *var,
+					t_code *code);
 
 /*-------Env-------*/
-void	stock_env(char **env, t_list **envp);
-void	print_env(t_list **envp, t_list	**exp_var);
-void	update_oldpwd(t_list **env);
-char	*get_actualpwd(t_list **env);
-void	print_pwd(char *str, t_code *code);
+void			stock_env(char **env, t_list **envp);
+void			print_env(t_list **envp, t_list **exp_var);
+void			update_oldpwd(t_list **env);
+char			*get_actualpwd(t_list **env);
+int				print_pwd(char *str, t_code *code);
 
 /*-------Cd-------*/
-void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code);
-void	ft_cd_home(t_data *data, t_list **env);
-void	get_home_path(t_data *data, t_list	**env);
-int		find_var_cd(char *path, t_list **env, t_list **exp_var);
-char	*put_path_cd(char *path, t_list **env, t_list **exp_var);
+void			ft_cd(t_data *data, t_list **env, t_list **exp_var,
+					t_code *code);
+void			ft_cd_home(t_data *data, t_list **env);
+void			get_home_path(t_data *data, t_list **env);
+int				find_var_cd(char *path, t_list **env, t_list **exp_var);
+char			*put_path_cd(char *path, t_list **env, t_list **exp_var);
 
 /*-------Unset-------*/
-void	ft_unset(t_list **env, t_list **exp_var, char *var);
+void			ft_unset(t_list **env, t_list **exp_var, char *var);
+
+/*-------Exit-------*/
+void			ft_exit(char *str, t_list **env, t_list **exp_var,
+					t_code *code);
 
 /*-------Ctrls-------*/
-void 	signalHandler(int signum);
-char	*get_total_setup(t_data *data);
-int		ft_count_words(const char *s, char c);
+void			signalHandler(int signum);
+char			*get_total_setup(t_data *data);
+int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var, int *fd, t_code *code);
-char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag);
+void			ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
+					int *fd, t_code *code);
+char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
+					int *flag);
 
 /*-------Cmds-------*/
-void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
-		char *file, char *redir, t_code *code);
-void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char *redir, t_code *rl_filename_completion_desired);
-void	ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
-char	**stock_total_env(t_list **envp, t_list **exp_var);
-char	*ft_strjoin_cmd(char const *s1, char const *s2);
-void	check_redirection(char *str, char *file, int *fd);
+void			setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
+					char *file, char *redir, t_code *code);
+void			check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var,
+					int fd, char *redir,
+					t_code *rl_filename_completion_desired);
+void			ft_relative_path(char **splitted_cmd1, char **envp, char *cmd1);
+char			**stock_total_env(t_list **envp, t_list **exp_var);
+char			*ft_strjoin_cmd(char const *s1, char const *s2);
+void			check_redirection(char *str, char *file, int *fd);
 
 /*-------Utils-------*/
-char 	*ft_strcat(char *dest, char *src);
-char 	*ft_str3cat(char *dest, char *src1, char *src2, char *get_total_setup);
-char	*ft_return_strcat(char *dest, char *src, char *result);
-int		ft_lstlen(t_list **lst);
-void	ft_strcpy_wn(char *dest, char *src, int size);
-int 	ft_len_equal(char *str);
-int 	ft_check_equal(char *str);
-void	ft_free_lists(t_list **env, t_list **exp_var);
-void	ft_putstr_msg(char *s, int fd, char *str);
-void	free_double_tabs(char **str);
-char	*ft_strjoin_error(char const *s1, char const *s2);
-int		ft_strlen_space(const char *str);
-int		ft_strcmp(char *s1, char *s2);
+char			*ft_strcat(char *dest, char *src);
+char			*ft_str3cat(char *dest, char *src1, char *src2,
+					char *get_total_setup);
+char			*ft_return_strcat(char *dest, char *src, char *result);
+int				ft_lstlen(t_list **lst);
+void			ft_strcpy_wn(char *dest, char *src, int size);
+int				ft_len_equal(char *str);
+int				ft_check_equal(char *str);
+void			ft_free_lists(t_list **env, t_list **exp_var);
+void			ft_putstr_msg(char *s, int fd, char *str);
+void			free_double_tabs(char **str);
+char			*ft_strjoin_error(char const *s1, char const *s2);
+int				ft_strlen_space(const char *str);
+int				ft_strcmp(char *s1, char *s2);
+int				ft_is_digit(char *str);
+int				ft_check_long(char *str);
+long long		ft_atoi_long(const char *nptr);
+int				check_nbr(char *str, char *cmpr);
 
 #endif

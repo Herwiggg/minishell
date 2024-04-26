@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/25 01:17:35 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:26:14 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
 	else if (pid > 0)
 	{
 		wait(NULL);
-		write(1, "\n", 1);
+		//write(1, "\n", 1);
 	}
 	else
 		perror("fork");

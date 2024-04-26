@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/25 00:24:33 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:00:50 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,20 @@ int	main(int ac, char **argv, char **envp)
 		if (data.str == NULL)
 		{
 			ft_printf("exit\n");
-			return (0);
+			exit (code.code);
 		}
 		if (strcmp("env", data.str) == 0)
 		{
 			print_env(&env, &exp_var);
 		}
-		else if (strcmp("pwd", data.str) == 0)
+		else if (strncmp("pwd", data.str, 3) == 0)
 		{
 			print_pwd(data.str, &code);
 		}
-		else if (strcmp("exit", data.str) == 0)
+		else if (strncmp("exit", data.str, 4) == 0)
 		{
-			ft_free_lists(&env, &exp_var);
-			exit(EXIT_FAILURE);
+			ft_exit(data.str, &env, &exp_var, &code);
+			exit(code.code);
 		}
 		else if (strncmp("cd ~", data.str, 4) == 0)
 			ft_cd_home(&data, &env);
@@ -102,7 +102,7 @@ int	main(int ac, char **argv, char **envp)
 			i = 1;
 			while (i < len)
 			{
-				export_variable(&env, &exp_var, double_tab[i]);
+				export_variable(&env, &exp_var, double_tab[i], &code);
 				i++;
 			}
 		}
@@ -122,5 +122,5 @@ int	main(int ac, char **argv, char **envp)
 		// Tu met la commande que tu veux dans le premier arg et dans le strncmp
 		// c'est en attendant le parsing
 	}
-	return (0);
+	exit(code.code);
 }

@@ -17,6 +17,7 @@ SRCS = minishell.c\
 		execute/cmd/exe_cmd.c\
 		utils/utilsv4.c\
 		execute/cmd/pwd.c\
+		execute/cmd/exit.c\
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/25 01:43:16 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/26 02:11:01 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 		code->code = 1;
 		if (flag == 1)
 			free(data->path);
-		ft_printf("cd: %s: No such file or directory \n", data->path);
+		write(2, "cd: No such file or directory \n", 32);
 	}
 }
 // On peut faire un cd $HOME par exemple, donc je cherche si ya la commande de cd correspond a une variable de l'env

@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:10:18 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/24 18:35:24 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:28:23 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_export(t_data *data, t_list **env, t_list **exp_var)
 	free(data->export);
 }
 // Si tu tapes par exemple "export a=12" dans le shell, ca va ajouter la variable a=12 a l'env, cette fonction permet de faire ca
-void	export_variable(t_list **env, t_list **exp_var, char *var)
+void	export_variable(t_list **env, t_list **exp_var, char *var, t_code *code)
 {
 	t_list	*current;
 	int		flag;
@@ -95,7 +95,11 @@ void	export_variable(t_list **env, t_list **exp_var, char *var)
 		head = *exp_var;
 	flag = 0;
 	if (ft_check_equal(var) == -1)
-		return ;
+	{
+		code->code = 1;
+		return;
+	}	
+	code->code = 0;
 	current = *env;
 	while (current)
 	{
