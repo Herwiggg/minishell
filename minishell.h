@@ -111,5 +111,6 @@ int				ft_is_digit(char *str);
 int				ft_check_long(char *str);
 long long		ft_atoi_long(const char *nptr);
 int				check_nbr(char *str, char *cmpr);
-
+void			ft_putendl_fd(char *s, int fd);
+int 			check_file(char *str);
 #endif

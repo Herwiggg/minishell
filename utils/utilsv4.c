@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 00:57:46 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/26 00:34:15 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/27 15:37:13 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,34 @@ long long  ft_atoi_long(const char *nptr)
 		i++;
 	}
 	return (sign * result);
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	write(fd, "\n", 1);
+}
+
+int check_file(char *str)
+{
+	int	i;
+
+	i = 0;
+
+	while (str[i])
+	{
+		if (str[i] == '/')
+			return (-1);
+		i++;
+	}
+	return (0);
 }

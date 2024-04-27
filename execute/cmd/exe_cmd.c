@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/25 17:26:14 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:14:08 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
 		char *file, char *redir, t_code *code)
 {
+	int status;
+
+	status = 0;
 	pid_t	pid;
 	int		fd;
 
@@ -23,20 +26,24 @@ void	setup_exe_simple_cmd(char *cmd, t_list **env, t_list **exp_var,
 	pid = fork();
 	if (pid == 0)
 	{
-		if (file[0] == '.' && file[1] == '/')
+		code->code = 0;
+		if (check_file(file) == -1)
 			if (chdir(file) != 0)
 				{
-					ft_putstr_msg(": Aucun fichier ou dossier de ce type", 2, file);
+					code->code = 1;
+					//ft_putstr_msg(": Aucun fichier ou dossier de ce type\n", 2, file);
+					ft_putendl_fd(": Aucun fichier ou dossier de ce type", 2);
 					exit(EXIT_FAILURE);
 				}
 		check_redirection(redir, file, &fd);
 		check_and_exe_cmd(cmd, env, exp_var, fd, redir, code);
-		exit(EXIT_SUCCESS);
+		exit(127);
 	}
 	else if (pid > 0)
 	{
-		wait(NULL);
-		//write(1, "\n", 1);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			code->code = WEXITSTATUS(status);
 	}
 	else
 		perror("fork");
@@ -60,7 +67,7 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 	if (ft_strncmp("echo", cmd, ft_strlen_space(cmd)) == 0)
 	{	
 		ft_echo(cmd + 5, 1, envp, exp_var, &fd, code);
-		return;
+		exit(EXIT_SUCCESS);
 	}
 	total_env = stock_total_env(envp, exp_var);
 	cmd1 = ft_split(cmd, ' ');
@@ -75,6 +82,8 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 	ft_relative_path(cmd1, total_env, cmd);
 	i = 0;
 	free_double_tabs(total_env);
+	code->code = 127;
+//	printf("%lld\n", code->code);
 	return;
 }
 

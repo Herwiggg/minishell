@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/26 02:11:01 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:09:23 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 {
 	int	flag;
 
+	char **tab;
+	char *join1;
+	char *join2;
+	
+	tab = ft_split(data->str, ' ');
+	if (tab[2] != NULL)
+	{
+		free_double_tabs(tab);
+		ft_putendl_fd("cd: too many arguments", 2);
+		code->code = 1;
+		return;
+	}
+	free_double_tabs(tab);
 	flag = 0;
 	data->path = data->str + 3;
 	if (find_var_cd(data->path + 1, env, exp_var) == 0)
@@ -41,7 +54,11 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 		code->code = 1;
 		if (flag == 1)
 			free(data->path);
-		write(2, "cd: No such file or directory \n", 32);
+		join1 = ft_strjoin("cd: ", data->str + 3);
+		join2 = ft_strjoin(join1, ": No such file or directory");
+		ft_putendl_fd(join2, 2);
+		free(join1);
+		free(join2);
 	}
 }
 // On peut faire un cd $HOME par exemple, donc je cherche si ya la commande de cd correspond a une variable de l'env
