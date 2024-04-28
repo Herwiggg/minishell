@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 00:05:45 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/27 19:09:23 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/28 01:55:16 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 	int	flag;
 
 	char **tab;
-	char *join1;
-	char *join2;
+	
 	
 	tab = ft_split(data->str, ' ');
 	if (tab[2] != NULL)
@@ -39,6 +38,14 @@ void	ft_cd(t_data *data, t_list **env, t_list **exp_var, t_code *code)
 		flag = 1;
 		data->path = put_path_cd(data->path + 1, env, exp_var);
 	}
+	ft_cd2(code, flag, env, data);
+}
+
+void	ft_cd2(t_code *code, int flag, t_list **env, t_data *data)
+{
+	char *join1;
+	char *join2;
+	
 	if (chdir(data->path) == 0)
 	{
 		data->pwd = getcwd(data->buf, sizeof(data->buf));
@@ -119,21 +126,6 @@ char	*put_path_cd(char *path, t_list **env, t_list **exp_var)
 	return (NULL);
 }
 
-// Quand tu fais cd ~ ca te ramene a ton HOME, cette fonction permet de faire ca
-void	ft_cd_home(t_data *data, t_list **env)
-{
-	data->path = NULL;
-	get_home_path(data, env);
-	if (chdir(data->path) == 0)
-	{
-		data->pwd = getcwd(data->buf, sizeof(data->buf));
-		free(data->total_setup);
-		data->total_setup = init_lobby(data);
-		update_env(env);
-	}
-	else
-		ft_printf("cd: ~: No such file or directory \n");
-}
 // J'extrais la variable Home de mon env pour la donner a la fonction au dessus
 void	get_home_path(t_data *data, t_list **env)
 {

@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/27 19:14:08 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/27 23:34:17 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 	i = 0;
 	free_double_tabs(total_env);
 	code->code = 127;
-//	printf("%lld\n", code->code);
 	return;
 }
 

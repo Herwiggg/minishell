@@ -40,6 +40,7 @@ typedef struct scode
 char			*init_lobby(t_data *data);
 void			add_minishell(t_data *data);
 char			*find_logname(t_data *data);
+void			find_logname2(t_data *data, int i, int j, int temp);
 void			add_pwd(t_data *data);
 
 /*-------Export-------*/
@@ -47,6 +48,10 @@ void			ft_export(t_data *data, t_list **env, t_list **exp_var);
 void			update_env(t_list **env);
 void			export_variable(t_list **env, t_list **exp_var, char *var,
 					t_code *code);
+void			export_variable2(t_list *current, t_list **list, int *flag, char *var);	
+void			trie_export(t_data *data, int i);			
+void			add_declare_x(t_data *data, t_list *current, t_list **list, int *i);
+void			print_export(t_data *data);
 
 /*-------Env-------*/
 void			stock_env(char **env, t_list **envp);
@@ -54,10 +59,13 @@ void			print_env(t_list **envp, t_list **exp_var);
 void			update_oldpwd(t_list **env);
 char			*get_actualpwd(t_list **env);
 int				print_pwd(char *str, t_code *code);
+void			add_back_oldpwd(int flag, char *cwd, t_list **env);
+void			find_pwd(int *flag, t_list **env);
 
 /*-------Cd-------*/
 void			ft_cd(t_data *data, t_list **env, t_list **exp_var,
 					t_code *code);
+void			ft_cd2(t_code *code, int flag, t_list **env, t_data *data);
 void			ft_cd_home(t_data *data, t_list **env);
 void			get_home_path(t_data *data, t_list **env);
 int				find_var_cd(char *path, t_list **env, t_list **exp_var);
@@ -69,6 +77,7 @@ void			ft_unset(t_list **env, t_list **exp_var, char *var);
 /*-------Exit-------*/
 void			ft_exit(char *str, t_list **env, t_list **exp_var,
 					t_code *code);
+void			ft_exit2(t_code *code, char **exit);
 
 /*-------Ctrls-------*/
 void			signalHandler(int signum);
@@ -113,4 +122,6 @@ long long		ft_atoi_long(const char *nptr);
 int				check_nbr(char *str, char *cmpr);
 void			ft_putendl_fd(char *s, int fd);
 int 			check_file(char *str);
+void			print_export(t_data *data);
+
 #endif

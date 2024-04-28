@@ -6,11 +6,28 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:00:54 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/15 17:41:25 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/28 02:05:45 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+char	*init_lobby(t_data *data)
+{
+	data->logname = find_logname(data);
+	if (!data->logname)
+	{
+		data->logname = malloc((16 * sizeof(char)));
+		if (!data->logname)
+			return (NULL);
+		ft_strcpy(data->logname, "user", 5);
+	}
+	add_minishell(data);
+	add_pwd(data);
+	data->total_setup = NULL;
+	data->total_setup = get_total_setup(data);
+	return (data->total_setup);
+}
 
 // Tout cette page permet de print le menu de lancement, pas besoinde parser je crois
 char	*find_logname(t_data *data)
@@ -18,9 +35,7 @@ char	*find_logname(t_data *data)
 	int	i;
 	int	j;
 	int	temp;
-	int	len;
 
-	len = 0;
 	j = 0;
 	i = 0;
 	if (!data->envp)
@@ -37,6 +52,16 @@ char	*find_logname(t_data *data)
 		j++;
 	j++;
 	temp = j;
+	find_logname2(data, i, j, temp);
+	return (data->logname);
+}
+
+void	find_logname2(t_data *data, int i, int j, int temp)
+{
+
+	int	len;
+
+	len = 0;
 	while (data->envp[i][j] && data->envp[i][j] != '\n')
 	{
 		len++;
@@ -45,7 +70,7 @@ char	*find_logname(t_data *data)
 	j = temp;
 	data->logname = malloc(((len + 12) * sizeof(char)));
 	if (!data->logname)
-		return (NULL);
+		return;
 	temp = 0;
 	while (data->envp[i][j])
 	{
@@ -54,7 +79,6 @@ char	*find_logname(t_data *data)
 		temp++;
 	}	
 	data->logname[temp] = '\0';
-	return (data->logname);
 }
 
 void	add_minishell(t_data *data)
@@ -93,34 +117,4 @@ void	add_pwd(t_data *data)
 	data->extract_pwd[j] = '\0';
 }
 
-char	*get_total_setup(t_data *data)
-{
-	int	len;
 
-	len = ft_strlen(data->logname) + ft_strlen(data->extract_pwd);
-	len = len + ft_strlen(" \u27a4 ") + 1;
-	data->total_setup = malloc ((len) * sizeof(char));
-	if (!data->total_setup)
-		return (NULL);
-	data->total_setup = ft_str3cat(data->logname, data->extract_pwd, " \u27a4 ", data->total_setup);
-	free(data->logname);
-	free(data->extract_pwd);
-	return (data->total_setup);
-}
-
-char	*init_lobby(t_data *data)
-{
-	data->logname = find_logname(data);
-	if (!data->logname)
-	{
-		data->logname = malloc((16 * sizeof(char)));
-		if (!data->logname)
-			return (NULL);
-		ft_strcpy(data->logname, "user", 5);
-	}
-	add_minishell(data);
-	add_pwd(data);
-	data->total_setup = NULL;
-	data->total_setup = get_total_setup(data);
-	return (data->total_setup);
-}

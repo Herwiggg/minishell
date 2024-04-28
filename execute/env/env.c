@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 18:29:57 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/25 01:18:21 by almichel         ###   ########.fr       */
+/*   Updated: 2024/04/28 01:44:16 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,17 @@ void	stock_env(char **env, t_list **envp)
 //Fonction qui permet d'update la ligne PWD de l'env a chaque fois que tu cd
 void	update_env(t_list **env)
 {
-	t_list	*current;
 	char	buf[1024];
-	char	*cwd;
 	int		flag;
 	t_list	*new_case;
 	char	*new_content;
-
+	char  	*cwd;
+	
 	flag = 0;
-	current = *env;
 	if (env != NULL)
 	{
 		update_oldpwd(env);
-		while (current)
-		{
-			if (strncmp(current->content, "PWD=", 4) == 0)
-			{
-				flag = 1;
-				cwd = getcwd(buf, sizeof(buf));
-				free(current->content);
-				current->content = malloc(((ft_strlen(cwd) + 5)
-							* sizeof(char)));
-				current->content = ft_return_strcat("PWD=", cwd,
-						current->content);
-			}
-			current = current->next;
-		}
+		find_pwd(&flag, env);
 		if (flag == 0)
 		{
 			cwd = getcwd(buf, sizeof(buf));
@@ -69,61 +54,26 @@ void	update_env(t_list **env)
 		}
 	}
 }
-//Fonction qui permet d'update la ligne OLDPWD de l'env a chaque fois que tu cd
-void	update_oldpwd(t_list **env)
-{
-	t_list	*current;
-	t_list	*new_case;
-	int		flag;
-	char	*cwd;
 
-	flag = 0;
-	current = *env;
-	cwd = get_actualpwd(env);
-	if (cwd == NULL)
-	{
-		cwd = malloc((7) * sizeof(char));
-		if (!cwd)
-			return ;
-		ft_strcpy(cwd, "OLDPWD=", 7);
-	}
-	while (current)
-	{
-		if (strncmp(current->content, "OLDPWD=", 7) == 0)
-		{
-			flag = 1;
-			free(current->content);
-			current->content = cwd;
-		}
-		current = current->next;
-	}
-	if (flag == 0)
-	{
-		new_case = ft_lstnew(cwd);
-		ft_lstadd_back(env, new_case);
-	}
-}
-// Fonction qui m'aide pour update la ligne OLDPWD a chaque cd
-char	*get_actualpwd(t_list **env)
+void	find_pwd(int *flag, t_list **env)
 {
 	t_list	*current;
 	char	*cwd;
-
+	char	buf[1024];
 	current = *env;
 	while (current)
-	{
-		if (strncmp(current->content, "PWD=", 4) == 0)
 		{
-			cwd = malloc(((ft_strlen(current->content) + 4) * sizeof(char)));
-			if (!cwd)
-				return (NULL);
-			ft_strcpy(cwd, "OLD", 3);
-			cwd = ft_strcat(cwd, current->content);
-			return (cwd);
+			if (strncmp(current->content, "PWD=", 4) == 0)
+			{
+				*flag = 1;
+				cwd = getcwd(buf, sizeof(buf));
+				free(current->content);
+				current->content = malloc(((ft_strlen(cwd) + 5) * sizeof(char)));
+				current->content = ft_return_strcat("PWD=", cwd,
+						current->content);
+			}
+			current = current->next;
 		}
-		current = current->next;
-	}
-	return (NULL);
 }
 
 //Je print l'env
