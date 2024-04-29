@@ -9,7 +9,8 @@ SRCS = src/minishell.c \
        src/utilsv1.c \
        src/parsing.c \
        src/quotes.c \
-       src/utilsv2.c
+       src/utilsv2.c \
+       src/nbr_quotes.c
 
 OBJS = $(patsubst src/%.c, $(OBJS_DIR)/%.o, $(SRCS))
 

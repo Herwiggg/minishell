@@ -51,5 +51,6 @@ int		quotes(char *str);
 int		init_ptr_on_quotes(size_t len, char ***ptr_double, 
 			char ***ptr_single);
 void	free_quotes(char **ptr_double, char **ptr_single);
+int		nbr_quotes(char *str);
 
 #endif
