@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:58:58 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/04/20 17:19:22 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/04/29 09:28:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	init_ptr_on_quotes(size_t len, char ***ptr_double, char ***ptr_single)
+{
+	size_t	i;
+	
+	*ptr_double = (char **)malloc(sizeof(char *) * (len + 1));
+	*ptr_single = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!(*ptr_double) || !(*ptr_single))
+		return (0);
+	i = 0;
+	while (i < len)
+	{
+		(*ptr_double)[i] = NULL;
+		(*ptr_single)[i] = NULL;
+		i++;
+	}
+	return (1);
+}
+
+void	free_quotes(char **ptr_double, char **ptr_single)
+{
+	free(ptr_double);
+	free(ptr_single);
+}
+
+/* JE PENSE QUE CA NOUS SERVIRA A RIEN FINALEMENT
 
 static int	white_space(char c)
 {
@@ -68,3 +94,4 @@ size_t	mini_split(char *str)
 {
 	return (nbr_words(str));
 }
+*/

@@ -47,6 +47,9 @@ void 	signalHandler(int signum);
 /*//&Fonctions de noah*/
 int		parsing(t_input *input);
 int		quotes(char *str);
-size_t	mini_split(char *str);
+//size_t	mini_split(char *str);
+int		init_ptr_on_quotes(size_t len, char ***ptr_double, 
+			char ***ptr_single);
+void	free_quotes(char **ptr_double, char **ptr_single);
 
 #endif

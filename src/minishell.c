@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/20 12:28:14 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/04/29 08:40:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int main(int ac, char **argv, char **envp)
 			}
 		else if(strcmp("exit", input.cmd) == 0)
 			exit (EXIT_FAILURE);
-	
 	}
 	
 }
