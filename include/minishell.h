@@ -48,5 +48,6 @@ void 	signalHandler(int signum);
 int		parsing(t_input *input);
 int		quotes(char *str);
 int		nbr_quotes(char *str);
+void		interpretation(char *str, int index);
 
 #endif

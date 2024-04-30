@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:52:04 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/04/29 15:32:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/30 14:48:00 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	parsing(t_input	*input)
+int	parsing(t_input	*input, char **env)
 {
-	if (!quotes(input->intput_brut))
+	if (!quotes(input->intput_brut, env))
 		return (printf("minishell : Syntax error\n"), 0);
 	printf("%s\n", input->intput_brut);
 	//printf("%zu\n", mini_split(input->intput_brut));

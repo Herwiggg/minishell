@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/04/29 15:33:25 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/30 15:31:14 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	rm_quotes(char *str)
 			ptr_on_quotes2(&in_double, &str[i]);
 		else if (str[i] == 39 && !in_double)
 			ptr_on_quotes2(&in_single, &str[i]);
+		else if (str[i] == '$' && !in_single)
+			interpretation(str, i++);
 		else
 			i++;
 	}
