@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 OBJS_DIR = obj
 
@@ -22,6 +22,10 @@ SRCS = minishell.c\
 		execute/env/env2.c\
 		execute/cmd/cd2.c\
 		execute/env/setup_lobby2.c\
+		execute/cmd/pipes.c\
+		execute/cmd/pipes2.c\
+		execute/cmd/pipes3.c\
+		utils/utilsv5.c\
 
 OBJS = $(SRCS:.c=.o)
 

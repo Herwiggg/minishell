@@ -30,6 +30,23 @@ typedef struct s_data
 	int			exit_code;
 }				t_data;
 
+typedef struct s_pipes
+{
+	pid_t	child1;
+	pid_t	child2;
+	int		fd1;
+	int		fd2;
+	int		flag1;
+	char	*cmd1;
+	char	*cmd2;
+	char	**splited_cmd1;
+	char	**splited_cmd2;
+	char	*good_line_envp;
+	char	**good_path;
+	char	*good_cmd;
+	int		*status;
+}			t_pipes;
+
 typedef struct scode
 {
 	long long	code;
@@ -72,8 +89,8 @@ int				find_var_cd(char *path, t_list **env, t_list **exp_var);
 char			*put_path_cd(char *path, t_list **env, t_list **exp_var);
 
 /*-------Unset-------*/
-void			ft_unset(t_list **env, t_list **exp_var, char *var);
-
+void			ft_unset(t_list **env, t_list **exp_var, char *var, t_code *code);
+void			ft_unset2(int flag, t_list **exp_var, char *var);
 /*-------Exit-------*/
 void			ft_exit(char *str, t_list **env, t_list **exp_var,
 					t_code *code);
@@ -101,6 +118,20 @@ char			**stock_total_env(t_list **envp, t_list **exp_var);
 char			*ft_strjoin_cmd(char const *s1, char const *s2);
 void			check_redirection(char *str, char *file, int *fd);
 
+/*-------Pipes-------*/
+void			main_pipes(int argc, char *argv[], t_list **env, t_list **exp_var);
+t_pipes			init_struct(char *argv[], int i, int argc);
+void			pipex(t_pipes *pipes, char **envp);
+void			init_fd1(char **argv, t_pipes *pipes);
+void			init_fd2(char **argv, t_pipes *pipes, int argc);
+int				child_pipes_process1(t_pipes *pipes, char *envp[], int *end);
+int				child_pipes_process2(t_pipes *pipes, char *envp[]);
+void			ft_relative_path1(t_pipes *pipes, char **envp, int i);
+void			ft_relative_path2(t_pipes *pipes, char **envp, int i);
+int				ft_dup2_one(t_pipes *pipes, int *end);
+void			init_fd2(char **argv, t_pipes *pipes, int argc);
+void			ft_close_all(t_pipes *pipes);
+
 /*-------Utils-------*/
 char			*ft_strcat(char *dest, char *src);
 char			*ft_str3cat(char *dest, char *src1, char *src2,
@@ -123,5 +154,6 @@ int				check_nbr(char *str, char *cmpr);
 void			ft_putendl_fd(char *s, int fd);
 int 			check_file(char *str);
 void			print_export(t_data *data);
+void			ft_putstr_fd_pipes(char *s, int fd, char *str);
 
 #endif
