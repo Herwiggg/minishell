@@ -46,8 +46,12 @@ void 	signalHandler(int signum);
 
 /*//&Fonctions de noah*/
 int		parsing(t_input *input);
-int		quotes(char *str);
+char	*quotes(char *str);
 int		nbr_quotes(char *str);
-void		interpretation(char *str, int index);
+char	*interpretation(char *str, int *index_of_var);
+int		*init_index_of_var(char *str);
+int		word_len(char *str);
+char	*get_env_value(char *str);
+int		total_len_str(char *str, int *index_of_var);
 
 #endif

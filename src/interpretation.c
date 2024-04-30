@@ -6,50 +6,106 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:56:39 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/04/30 15:35:15 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:21:49 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	*init_index_of_var(char *str)
+{
+	int	count;
+	int	i;
+	int	*index;
+	
+	count = 0;
+	i = 0;
+	while (str[i])
+		if (str[i++] == '$')
+			count++;
+	index = (int *)malloc(sizeof(int) * (count + 1));
+	i = 0;
+	while (i < count + 1)
+		index[i++] = -1;
+	return (index);
+}
+
 /*static void	replace_interpret(char *str, char *value)
 {
-	int	i;
+	int		i;
+	int		tmp;
+	char	*result;
 	i = 0;
-	if (!value)
+	while (str[i] != '$')
+		i++;
+	while (str[i] != 39 && str[i] != 34 && str[i] != ' ' && str[i])
 	{
-		while (str[0] )
+		tmp = i - 1;
+		while (str[++tmp])
+			str[tmp] = str[tmp + 1];
 	}
+	if (value)
+	{
+		result = insert(str, value);
+		str = result;
+	}
+
 }*/
-static int	void_after(char *str, int index)
+
+/*static int	void_after(char *str, int index)
 {
 	if (str[index + 1] == ' ' || str[index + 1] == 39
 		|| str[index + 1] == 34 || !str[index + 1] || str[index + 1] == '$')
 		return (1);
 	return (0);
+}*/
+
+static void	var_to_val(char *dest, char *str, int *index_of_var)
+{
+	int		i;
+	int		y;
+	int		count;
+	int		z;
+	char	*value;
+
+	count = 0;
+	i = 0;
+	y = 0;
+	while (str[i])
+	{
+		if (i == index_of_var[count])
+		{
+			value = get_env_value(str + i);
+			z = 0;
+			if (value)
+			{
+				while (value[z])
+					dest[y++] = value[z++];
+				i += z;
+			}
+			else
+				dest[y++] = str[i++];
+		}
+		else
+			dest[y++] = str[i++];
+	}
+	dest[y] = '\0';
 }
 
-void	interpretation(char *str, int index)
+char	*interpretation(char *str, int *index_of_var)
 {
 	int	i;
-	int	count;
-	char	*var;
-	char	*value;
+	int	total_len;
+	char	*result;
 	
-	(void)index;
 	i = 0;
-	count = 0;
-	while (str[i] == 34 || str[i] == 39 || str[i] == ' ')
-		i++;
-	if (void_after(str, i))
-		return ;
-	while (str[i] != ' ' && str[i] != 34 && str[i++] != 39)
-		count++;
-	var = (char *)malloc(sizeof(char) * count);
-	ft_strlcpy(var, str + 1, count);
-	printf("var = %s\n", var);
-	value = getenv(var);
-	//replace_interpret(str, value);
-	printf("value = %s\n", value);
-	free(var);
+	total_len = total_len_str(str, index_of_var);
+	if (total_len < 0)
+		return (NULL);
+	result = (char *)malloc(sizeof(char) * total_len + 1);
+	if (!result)
+		return (NULL);
+	var_to_val(result, str, index_of_var);
+	free(index_of_var);
+	return (result);
 }
