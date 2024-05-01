@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/04/30 21:22:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:40:58 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,33 @@ static void	ptr_on_quotes2(int *in_quotes, char *c)
 		*in_quotes = 0;
 	while (c[++i])
 		c[i] = c[i + 1];
+}
+
+static void	is_interpreted(char *str, int *i, int *index, int *count)
+{
+	char	*value;
+	int		x;
+	
+	value = get_env_value(str);
+	if (value)
+		index[(*count)++] = (*i)++;
+	else
+	{
+		(*i)++;
+		while (str[0] != ' ' && str[0] != 39 && str[0] != 34
+			&& str[0] != '\t' && str[0])
+		{
+			x = -1;
+			while (str[++x])
+				str[x] = str[x + 1];
+		}
+		if (str[0] == 39 || str[0] == 34)
+		{
+			x = -1;
+			while (str[++x])
+				str[x] = str[x + 1];
+		}
+	}
 }
 
 static void	trim_quotes(char *str, int *in_single, int *in_double,
@@ -42,7 +69,7 @@ static void	trim_quotes(char *str, int *in_single, int *in_double,
 		else if (str[i] == '$' && !(*in_single) && str[i + 1] != 39
 			&& str[i + 1] != 34 && str[i + 1] != ' '
 			&& str[i + 1] != '$')
-			index_of_var[count++] = i++;
+			is_interpreted(str + i, &i, index_of_var, &count);
 		else
 			i++;
 	}
@@ -63,6 +90,9 @@ static char	*rm_quotes(char *str)
 	if (!index_of_var)
 		return (NULL);
 	trim_quotes(str, &in_single, &in_double, index_of_var);
+	int i = 0;
+	while (index_of_var[i] != -1)
+		printf("index = %d\n", index_of_var[i++]);
 	result = interpretation(str, index_of_var);
 	if (!result)
 		return (NULL);

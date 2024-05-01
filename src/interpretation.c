@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:56:39 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/04/30 21:21:49 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:02:54 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	*init_index_of_var(char *str)
 	int	*index;
 	
 	count = 0;
-	i = 0;
-	while (str[i])
-		if (str[i++] == '$')
+	i = -1;
+	while (str[++i])
+		if (str[i] == '$')
 			count++;
 	index = (int *)malloc(sizeof(int) * (count + 1));
 	i = 0;
@@ -81,10 +81,9 @@ static void	var_to_val(char *dest, char *str, int *index_of_var)
 			{
 				while (value[z])
 					dest[y++] = value[z++];
-				i += z;
 			}
-			else
-				dest[y++] = str[i++];
+			i += word_len(&str[i]);
+			count++;
 		}
 		else
 			dest[y++] = str[i++];
