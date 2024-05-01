@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/01 16:40:58 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:42:15 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	is_interpreted(char *str, int *i, int *index, int *count)
 		index[(*count)++] = (*i)++;
 	else
 	{
-		(*i)++;
 		while (str[0] != ' ' && str[0] != 39 && str[0] != 34
 			&& str[0] != '\t' && str[0])
 		{
@@ -43,12 +42,8 @@ static void	is_interpreted(char *str, int *i, int *index, int *count)
 			while (str[++x])
 				str[x] = str[x + 1];
 		}
-		if (str[0] == 39 || str[0] == 34)
-		{
-			x = -1;
-			while (str[++x])
-				str[x] = str[x + 1];
-		}
+		if (str[0] != 39 && str[0] != 34)
+			(*i)++;
 	}
 }
 
