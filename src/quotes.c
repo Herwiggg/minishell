@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/01 17:42:15 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:16:51 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ static char	*rm_quotes(char *str)
 	if (!index_of_var)
 		return (NULL);
 	trim_quotes(str, &in_single, &in_double, index_of_var);
-	int i = 0;
-	while (index_of_var[i] != -1)
-		printf("index = %d\n", index_of_var[i++]);
 	result = interpretation(str, index_of_var);
 	if (!result)
 		return (NULL);
@@ -98,6 +95,8 @@ char	*quotes(char *str)
 {
 	char	*result;
 	
+	str = ft_strtrim(str, " ");
+	rm_space(str);
 	if (!nbr_quotes(str))
 		return (NULL);
 	result = rm_quotes(str);

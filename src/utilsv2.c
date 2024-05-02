@@ -6,7 +6,7 @@
 /*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/01 15:46:35 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:24:02 by nadjemia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,41 @@ int	total_len_str(char *str, int *index_of_var)
 		i++;
 	}
 	return (count);
+}
+
+static void	is_in_quotes(int *in_quote)
+{
+	if (!(*in_quote))
+		*in_quote = 1;
+	else
+		*in_quote = 0;
+}
+
+void	rm_space(char *str)
+{
+	int	i;
+	int	k;
+	int	l;
+	int	in_sgl;
+	int	in_dbl;
+	
+	i = 0;
+	k = 0;
+	in_sgl = 0;
+	in_dbl = 0;
+	while (str[i])
+	{
+		if (str[i] == 34 && !in_sgl)
+			is_in_quotes(&in_dbl);
+		if (str[i] == 39 && !in_dbl)
+			is_in_quotes(&in_sgl);
+		l = i - 1;
+		if (str[i] == ' ' && str[i + 1] == ' ' && !in_dbl && !in_sgl)
+		{
+			while (str[++l])
+				str[l] = str[l + 1];
+		}
+		else 
+			i++;
+	}
 }

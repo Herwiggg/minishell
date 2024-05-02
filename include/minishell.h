@@ -53,5 +53,6 @@ int		*init_index_of_var(char *str);
 int		word_len(char *str);
 char	*get_env_value(char *str);
 int		total_len_str(char *str, int *index_of_var);
+void	rm_space(char *str);
 
 #endif
