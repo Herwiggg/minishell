@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/03 10:04:10 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/03 10:08:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	trim_quotes(char *str, int *in_single, int *in_double,
 			ptr_on_quotes2(in_double, &str[i]);
 		else if (str[i] == 39 && !(*in_double))
 			ptr_on_quotes2(in_single, &str[i]);
-		else if (str[i] == '$' && ft_isalnum(str[i + 1]))
+		else if (str[i] == '$' && !(*in_single) && ft_isalnum(str[i + 1]))
 			is_interpreted(str + i, &i, index_of_var, &count);
 		else
 			i++;
@@ -81,6 +81,9 @@ static char	*rm_quotes(char *str)
 	if (!index_of_var)
 		return (NULL);
 	trim_quotes(str, &in_single, &in_double, index_of_var);
+	int i = 0;
+	while (index_of_var[i] != -1)
+		printf("%d\n", index_of_var[i++]);
 	result = interpretation(str, index_of_var);
 	if (!result)
 		return (NULL);
