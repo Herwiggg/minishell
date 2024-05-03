@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilsv2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:37:45 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/02 15:24:02 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/03 09:42:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,11 @@ static void	is_in_quotes(int *in_quote)
 void	rm_space(char *str)
 {
 	int	i;
-	int	k;
 	int	l;
 	int	in_sgl;
 	int	in_dbl;
 	
 	i = 0;
-	k = 0;
 	in_sgl = 0;
 	in_dbl = 0;
 	while (str[i])

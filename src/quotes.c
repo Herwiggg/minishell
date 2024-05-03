@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:48:20 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/02 15:16:51 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/03 10:04:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ static void	trim_quotes(char *str, int *in_single, int *in_double,
 			ptr_on_quotes2(in_double, &str[i]);
 		else if (str[i] == 39 && !(*in_double))
 			ptr_on_quotes2(in_single, &str[i]);
-		else if (str[i] == '$' && !(*in_single) && str[i + 1] != 39
-			&& str[i + 1] != 34 && str[i + 1] != ' '
-			&& str[i + 1] != '$')
+		else if (str[i] == '$' && ft_isalnum(str[i + 1]))
 			is_interpreted(str + i, &i, index_of_var, &count);
 		else
 			i++;
@@ -72,15 +70,13 @@ static void	trim_quotes(char *str, int *in_single, int *in_double,
 
 static char	*rm_quotes(char *str)
 {
-	int	*index_of_var;
-	int	nbr_ptr;
-	int	in_double;
-	int	in_single;
+	int		*index_of_var;
+	int		in_double;
+	int		in_single;
 	char	*result;
 	
 	in_double = 0;
 	in_single = 0;
-	nbr_ptr = 0;
 	index_of_var = init_index_of_var(str);
 	if (!index_of_var)
 		return (NULL);
@@ -100,6 +96,8 @@ char	*quotes(char *str)
 	if (!nbr_quotes(str))
 		return (NULL);
 	result = rm_quotes(str);
+	free(str);
+	result = ft_strtrim(result, " ");
 	if (!result)
 		return (NULL);
 	return (result);

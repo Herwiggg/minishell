@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpretation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadjemia <nadjemia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:56:39 by nadjemia          #+#    #+#             */
-/*   Updated: 2024/05/01 16:02:54 by nadjemia         ###   ########.fr       */
+/*   Updated: 2024/05/03 09:42:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,36 +29,6 @@ int	*init_index_of_var(char *str)
 		index[i++] = -1;
 	return (index);
 }
-
-/*static void	replace_interpret(char *str, char *value)
-{
-	int		i;
-	int		tmp;
-	char	*result;
-	i = 0;
-	while (str[i] != '$')
-		i++;
-	while (str[i] != 39 && str[i] != 34 && str[i] != ' ' && str[i])
-	{
-		tmp = i - 1;
-		while (str[++tmp])
-			str[tmp] = str[tmp + 1];
-	}
-	if (value)
-	{
-		result = insert(str, value);
-		str = result;
-	}
-
-}*/
-
-/*static int	void_after(char *str, int index)
-{
-	if (str[index + 1] == ' ' || str[index + 1] == 39
-		|| str[index + 1] == 34 || !str[index + 1] || str[index + 1] == '$')
-		return (1);
-	return (0);
-}*/
 
 static void	var_to_val(char *dest, char *str, int *index_of_var)
 {
@@ -93,11 +63,9 @@ static void	var_to_val(char *dest, char *str, int *index_of_var)
 
 char	*interpretation(char *str, int *index_of_var)
 {
-	int	i;
-	int	total_len;
+	int		total_len;
 	char	*result;
 	
-	i = 0;
 	total_len = total_len_str(str, index_of_var);
 	if (total_len < 0)
 		return (NULL);
