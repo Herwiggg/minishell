@@ -102,8 +102,8 @@ char			*get_total_setup(t_data *data);
 int				ft_count_words(const char *s, char c);
 
 /*-------echo------*/
-void			ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
-					int *fd, t_code *code);
+void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
+			int *fd, t_code *code, int flag_redir);
 char			*find_echo_var(char *str, t_list **env, t_list **exp_var,
 					int *flag);
 
@@ -119,13 +119,13 @@ char			*ft_strjoin_cmd(char const *s1, char const *s2);
 void			check_redirection(char *str, char *file, int *fd);
 
 /*-------Pipes-------*/
-void			main_pipes(int argc, char *argv[], t_list **env, t_list **exp_var);
-t_pipes			init_struct(char *argv[], int i, int argc);
-void			pipex(t_pipes *pipes, char **envp);
+void			main_pipes(int argc, char *argv[], char **envp, t_code *code, char *data_str);
+void			init_struct(char *argv[], int i, int argc, t_pipes *pipes);
+void			pipex(t_pipes *pipes, char **envp, t_code *code, int count);
 void			init_fd1(char **argv, t_pipes *pipes);
 void			init_fd2(char **argv, t_pipes *pipes, int argc);
-int				child_pipes_process1(t_pipes *pipes, char *envp[], int *end);
-int				child_pipes_process2(t_pipes *pipes, char *envp[]);
+void			child_pipes_process1(t_pipes *pipes, char *envp[]);
+void			child_pipes_process2(t_pipes *pipes, char *envp[]);
 void			ft_relative_path1(t_pipes *pipes, char **envp, int i);
 void			ft_relative_path2(t_pipes *pipes, char **envp, int i);
 int				ft_dup2_one(t_pipes *pipes, int *end);

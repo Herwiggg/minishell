@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:17:07 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/27 23:34:17 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/03 00:49:49 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,24 @@ void	check_and_exe_cmd(char *cmd, t_list **envp, t_list **exp_var, int fd, char 
 	char	**absolut_path;
 	char	**total_env;
 	int		i;
+	int		flag;
 
+	flag = 1;
 	i = 0;
 	if (redir)
 	{
 		if (ft_strcmp(redir, ">") == 0 || ft_strcmp(redir, ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
 		else if (ft_strcmp(redir, "<") == 0)
+		{
 			dup2(fd, STDIN_FILENO);
+			flag = 0;
+		}
+
 	}
 	if (ft_strncmp("echo", cmd, ft_strlen_space(cmd)) == 0)
-	{	
-		ft_echo(cmd + 5, 1, envp, exp_var, &fd, code);
+	{
+		ft_echo(cmd + 5, 1, envp, exp_var, &fd, code, flag);
 		exit(EXIT_SUCCESS);
 	}
 	total_env = stock_total_env(envp, exp_var);

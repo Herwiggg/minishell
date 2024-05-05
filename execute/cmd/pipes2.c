@@ -6,13 +6,13 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:18:52 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/30 22:03:43 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/03 02:39:19 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	child_pipes_process1(t_pipes *pipes, char *envp[], int *end)
+void	child_pipes_process1(t_pipes *pipes, char *envp[])
 {
 	int		i;
 	char	**absolut_path;
@@ -20,10 +20,7 @@ int	child_pipes_process1(t_pipes *pipes, char *envp[], int *end)
 
 	cmd1 = ft_split(pipes->cmd1, ' ');
 	i = 0;
-
-	close(end[0]);
-	if (ft_dup2_one(pipes, end) == -1)
-		return (-1);
+	
 	absolut_path = ft_split(pipes->cmd1, ' ');
 	execve(absolut_path[0], cmd1, envp);
 	while (absolut_path[i])
@@ -35,10 +32,9 @@ int	child_pipes_process1(t_pipes *pipes, char *envp[], int *end)
 	while (cmd1[++i] != NULL)
 		free(cmd1[i]);
 	free(cmd1);
-	return (-1);
 }
 
-int	child_pipes_process2(t_pipes *pipes, char *envp[])
+void	child_pipes_process2(t_pipes *pipes, char *envp[])
 {
 	int		i;
 	char	**absolut_path;
@@ -59,7 +55,6 @@ int	child_pipes_process2(t_pipes *pipes, char *envp[])
 		i++;
 	}
 	free(cmd2);
-	return (-1);
 }
 
 void	ft_relative_path1(t_pipes *pipes, char **envp, int i)

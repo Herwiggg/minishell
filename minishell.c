@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:46:16 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/30 23:41:27 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/06 00:03:26 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,12 @@ int	main(int ac, char **argv, char **envp)
 				i++;
 			}
 		}
-		else if (strncmp("echo ttt", data.str, 4) == 0)
-			setup_exe_simple_cmd(data.str, &env, &exp_var, "", "", &code);
-		// Tu met la commande que tu veux dans le premier arg et dans le strncmp
-		// c'est en attendant le parsing
+		else if (strncmp("echo test", data.str, 9) == 0)
+			setup_exe_simple_cmd(data.str, &env, &exp_var, "outfile", "<", &code);
 		else if (ft_strncmp(data.str, "ls", 2) == 0)
 		{
-			main_pipes(ft_count_words(data.str, ' ') + 1, ft_split(data.str, ' '), &env, &exp_var);
+			char 	**envv = stock_total_env(&env, &exp_var);
+			main_pipes(ft_count_words(data.str, ' ') + 1, ft_split(data.str, ' '), envv, &code, data.str);
 		}
 	
 	}

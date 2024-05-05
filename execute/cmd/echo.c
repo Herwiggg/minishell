@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:08:30 by almichel          #+#    #+#             */
-/*   Updated: 2024/04/24 19:19:13 by almichel         ###   ########.fr       */
+/*   Updated: 2024/05/03 00:50:36 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*find_echo_var(char *str, t_list **env, t_list **exp_var, int *flag)
 
 // Fonction echo, c'est juste un printf et je check si y'a l'option -n
 void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
-			int *fd, t_code *code)
+			int *fd, t_code *code, int flag_redir)
 {
 	int i;
 	int len;
@@ -62,7 +62,7 @@ void	ft_echo(char *str, int n_option, t_list **env, t_list **exp_var,
 			i = 0;
 		while (str[i])
 		{
-			if (*fd != -1)
+			if (*fd != -1 && flag_redir != 0)
 				write((*fd), &str[i], 1);
 			else
 				write(1, &str[i], 1);
